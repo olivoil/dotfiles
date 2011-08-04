@@ -1,6 +1,9 @@
 require 'rake'
 require 'erb'
 
+desc "install all dotfiles"
+task :all => [:install, :vim]
+
 desc "install the dot files into user's home directory"
 task :install do
   replace_all = false
@@ -30,6 +33,11 @@ task :install do
       link_file(file)
     end
   end
+end
+
+desc "install vim plugins with Pathogen"
+task :vim do
+  ruby 'vim/update_bundles'
 end
 
 def replace_file(file)
