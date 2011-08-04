@@ -7,18 +7,27 @@ alias l="ls -lAh"
 alias ll="ls -l"
 alias la='ls -A'
 
+# terminitor
+alias t='terminitor'
+alias ts='terminitor start'
+alias te='terminitor edit'
+
 # git
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff'
 alias gc='git commit'
+alias gcm='git commit -m'
 alias gca='git commit -a'
 alias gco='git checkout'
 alias gb='git branch'
 alias gs='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+alias glog="git log --pretty=format:'%ar	%an	%ae	%h - %s' --date-order --graph"
+alias gh='git push heroku master'
 
 # rails
+alias rials='rails'
 alias sc='script/console'
 alias ss='script/server'
 alias sg='script/generate'

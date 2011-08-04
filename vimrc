@@ -1,5 +1,10 @@
 " based on http://github.com/jferris/config_files/blob/master/vimrc
 
+" pathogen bundles
+filetype off
+call pathogen#helptags()
+call pathogen#runtime_append_all_bundles()
+
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
@@ -21,11 +26,27 @@ map Q gq
 " text is lost and it only works for putting the current register.
 "vnoremap p "_dp
 
+" Gist
+if exists("g:gist_detect_filetype")
+  let g:gist_detect_filetype = 1
+endif
+if exists("g:gist_open_browser_after_post")
+  let g:gist_open_browser_after_post = 1
+endif
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
   set hlsearch
+endif
+
+" Solarized colors plugin configuration
+" Toggle change of background with Conrol + Backtick (tilde key on Mac Book Pro 13 inch keyboard
+if has('gui_running')
+  colorscheme solarized
+  set background=dark
+  call togglebg#map("<Leader>1")
 endif
 
 " Switch wrap off for everything
@@ -44,6 +65,11 @@ if has("autocmd")
 
   " Enable soft-wrapping for text files
   autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
+
+  " Enable ragtag for additional filetypes
+  if exists("g:loaded_ragtag")
+    autocmd FileType jst call RagtagInit()
+  endif
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
@@ -71,13 +97,13 @@ else
 
 endif " has("autocmd")
 
-" if has("folding")
-  " set foldenable
-  " set foldmethod=syntax
-  " set foldlevel=1
-  " set foldnestmax=2
-  " set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
-" endif
+if has("folding")
+  set foldenable
+  set foldmethod=syntax
+  set foldlevel=1
+  set foldnestmax=2
+  set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
+endif
 
 " Softtabs, 2 spaces
 set tabstop=2
@@ -121,6 +147,15 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " Normal mode: <Leader>t
 map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
+" Window commands
+set wmw=0
+set wmh=0
+map <S-H> <C-W>h
+map <S-J> <C-W>j
+map <S-K> <C-W>k
+map <S-L> <C-W>l
+
+
 " Move lines up and down
 map <C-J> :m +1 <CR>
 map <C-K> :m -2 <CR>
@@ -148,8 +183,18 @@ imap <C-F> <C-R>=expand("%")<CR>
 
 " Maps autocomplete to tab
 imap <Tab> <C-N>
-
+imap <S-Tab> <C-P>
 imap <C-L> <Space>=><Space>
+
+" Toggle NerdTree
+ab NT NERDTreeToggle
+
+" Keep selection when indenting in visual mode
+vmap > >gv
+vmap < <gv
+
+" Alias window controls
+cmap <Leader>w <C-w>
 
 " Display extra whitespace
 " set list listchars=tab:»·,trail:·
@@ -197,7 +242,7 @@ set tags=./tags;
 let g:fuf_splitPathMatching=1
 
 " Open URL
-command -bar -nargs=1 OpenURL :!open <args>
+command! -bar -nargs=1 OpenURL :!open <args>
 function! OpenURL()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
   echo s:uri
