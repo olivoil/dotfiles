@@ -50,7 +50,7 @@ def github_com?
 end
 
 def vim_org?
-  check_host('vim.org')
+  check_host('www.vim.org')
 end
 
 require 'fileutils'

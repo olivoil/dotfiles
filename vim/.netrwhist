@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='/Users/olivier/Dropbox/Code/projects/ruby/ToDo'
 let g:netrw_dirhist_2='/Users/olivier/Dropbox/Code/projects/ruby/ToDo2'
 let g:netrw_dirhist_3='/Users/olivier/.vim'
+let g:netrw_dirhist_4='/Users/olivier/.dotfiles'
+let g:netrw_dirhist_5='/Users/olivier/Dropbox/Code/projects/ruby/ToDo2'
+let g:netrw_dirhist_6='/Users/olivier/Dropbox/Code/projects/ruby/ToDo'
