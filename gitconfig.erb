@@ -9,7 +9,7 @@
 	branch = auto
 [core]
 	excludesfile = <%= ENV['HOME'] %>/.gitignore
-	editor = mate -w
+	editor = vim 
 	autocrlf = input
 [apply]
 	whitespace = nowarn
@@ -18,3 +18,10 @@
 [github]
 	user = <%= print("GitHub Username: "); STDOUT.flush; STDIN.gets.chomp %>
 	token = <%= print("GitHub API Token: "); STDOUT.flush; STDIN.gets.chomp %>
+[imap]
+  folder = "[Gmail]/Drafts"
+  host = imaps://imap.gmail.com
+  user = <%= print("Gmail username: "); STDOUT.flush; STDIN.gets.chomp %>
+  pass = <%= print("Gmail password: "); STDOUT.flush; STDIN.gets.chomp %>
+  port = 993
+  sslverify = false
