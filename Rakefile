@@ -1,43 +1,46 @@
 require 'rake'
 require 'erb'
 
-desc "install all dotfiles"
-task :all => [:install, :vim]
 
-desc "install the dot files into user's home directory"
-task :install do
-  replace_all = false
-  Dir['*'].each do |file|
-    next if %w[Rakefile README.rdoc LICENSE].include? file
-    
-    if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
-      if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
-        puts "identical ~/.#{file.sub('.erb', '')}"
-      elsif replace_all
-        replace_file(file)
-      else
-        print "overwrite ~/.#{file.sub('.erb', '')}? [ynaq] "
-        case $stdin.gets.chomp
-        when 'a'
-          replace_all = true
+namespace :install do
+  desc "install all dotfiles"
+  task :all => [:dotfiles, :vim]
+
+  desc "install the dot files into user's home directory"
+  task :dotfiles do
+    replace_all = false
+    Dir['*'].each do |file|
+      next if %w[Rakefile README.rdoc LICENSE].include? file
+      
+      if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
+        if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
+          puts "identical ~/.#{file.sub('.erb', '')}"
+        elsif replace_all
           replace_file(file)
-        when 'y'
-          replace_file(file)
-        when 'q'
-          exit
         else
-          puts "skipping ~/.#{file.sub('.erb', '')}"
+          print "overwrite ~/.#{file.sub('.erb', '')}? [ynaq] "
+          case $stdin.gets.chomp
+          when 'a'
+            replace_all = true
+            replace_file(file)
+          when 'y'
+            replace_file(file)
+          when 'q'
+            exit
+          else
+            puts "skipping ~/.#{file.sub('.erb', '')}"
+          end
         end
+      else
+        link_file(file)
       end
-    else
-      link_file(file)
     end
   end
-end
 
-desc "install vim plugins with Pathogen"
-task :vim do
-  ruby 'vim/update_bundles'
+  desc "install vim plugins with Pathogen"
+  task :vim do
+    ruby 'vim/update_bundles'
+  end
 end
 
 def replace_file(file)
