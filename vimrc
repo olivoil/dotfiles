@@ -26,6 +26,7 @@ map Q gq
 " text is lost and it only works for putting the current register.
 "vnoremap p "_dp
 
+
 " Gist
 if exists("g:gist_detect_filetype")
   let g:gist_detect_filetype = 1
@@ -70,6 +71,9 @@ if has("autocmd")
   if exists("g:loaded_ragtag")
     autocmd FileType jst call RagtagInit()
   endif
+
+  " Coffeescript auto-compile
+  au BufWritePost *.coffee silent CoffeeMake!
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
