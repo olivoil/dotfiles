@@ -58,6 +58,23 @@ if has('gui_running')
   call togglebg#map("<Leader>1")
 endif
 
+if has("gui_running")
+    " GRB: set font"
+    "   ":set nomacatsui anti enc=utf-8 gfn=Monaco:h12
+    
+    " GRB: set window size"
+      :set lines=100
+      :set columns=171
+
+    " GRB: highlight current line"
+      :set cursorline
+endif
+
+" GRB: hide the toolbar in GUI mode
+if has("gui_running")
+  set go-=T
+endif
+
 " Switch wrap off for everything
 set nowrap
 
@@ -75,6 +92,11 @@ if has("autocmd")
   " Enable soft-wrapping for text files
   autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
 
+  augroup mkd
+    autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
+    autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+  augroup END
+
   " Enable ragtag for additional filetypes
   if exists("g:loaded_ragtag")
     autocmd FileType jst call RagtagInit()
@@ -88,7 +110,7 @@ if has("autocmd")
   au!
 
   " For all text files set 'textwidth' to 78 characters.
-  " autocmd FileType text setlocal textwidth=78
+  autocmd FileType text setlocal textwidth=78
 
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
@@ -124,6 +146,15 @@ set expandtab
 
 " Always display the status line
 set laststatus=2
+
+" GRB: Put useful info in status line
+set statusline=%<%f\\ (%{&ft})\\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
+
+" Can't be bothered to understand the difference between ESC and <c-c> in
+" insert mode
+imap <c-c> <esc>
+
 
 " \ is the leader character
 let mapleader = ","
