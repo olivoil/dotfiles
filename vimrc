@@ -1,9 +1,39 @@
 " based on http://github.com/jferris/config_files/blob/master/vimrc
 
+
+" MapLeader
+let mapleader=","
+
+" W to save
+command WQ wq
+command Wq wq
+command W w
+command Q q
+
+" Fullscreen on OSX
+" <Leader>1 toggles full screen on and off
+if has("gui_running")
+  let g:fullScreened = 0
+  set nofullscreen
+  function ToggleFullScreen()
+    if g:fullScreened == 0
+      let g:fullScreened = 1
+      set fullscreen
+    else
+      let g:fullScreened = 0
+      set nofullscreen
+    endif
+  endfunction
+  map <Leader>1 :call ToggleFullScreen()<CR>
+endif
+
 " pathogen bundles
 filetype off
 call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
+
+" Set shell
+set shell=/bin/zsh
 
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -55,19 +85,19 @@ endif
 if has('gui_running')
   colorscheme solarized
   set background=dark
-  call togglebg#map("<Leader>1")
+  call togglebg#map("<Leader>`")
 endif
 
 if has("gui_running")
     " GRB: set font"
-    "   ":set nomacatsui anti enc=utf-8 gfn=Monaco:h12
+    "   "set nomacatsui anti enc=utf-8 gfn=Monaco:h12
     
     " GRB: set window size"
-      :set lines=100
-      :set columns=171
+      set lines=100
+      set columns=171
 
     " GRB: highlight current line"
-      :set cursorline
+      set cursorline
 endif
 
 " GRB: hide the toolbar in GUI mode
@@ -148,7 +178,7 @@ set expandtab
 set laststatus=2
 
 " GRB: Put useful info in status line
-set statusline=%<%f\\ (%{&ft})\\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+" set statusline=%<%f\\\\\\\\\\\\\\\\ (%{&ft})\\\\\\\\\\\\\\\\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
 
 " Can't be bothered to understand the difference between ESC and <c-c> in
@@ -191,7 +221,6 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Window commands
-set wmw=0
 set wmh=0
 map <S-H> <C-W>h
 map <S-J> <C-W>j
@@ -264,14 +293,9 @@ if filereadable(".vimrc.local")
 endif
 
 " Use Ack instead of Grep when available
-if executable("ack")
-  set grepprg=ack\ -H\ --nogroup\ --nocolor\ --ignore-dir=tmp\ --ignore-dir=coverage
-endif
-
-" Color scheme
-" colorscheme vividchalk
-" highlight NonText guibg=#060606
-" highlight Folded  guibg=#0A0A0A guifg=#9090D0
+" if executable("ack")
+  " set grepprg=ack\\ -H\\ --nogroup\\ --nocolor\\ --ignore-dir=tmp\\ --ignore-dir=coverage
+" endif
 
 " Numbers
 set number
@@ -291,8 +315,11 @@ set ignorecase
 set smartcase
 
 " Tags
-let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
+let g:Tlist_Ctags_Cmd="/usr/local/bin/ctags --exclude='*.js'"
 set tags=./tags;
+" let g:tagbar_ctags_bin='/usr/local/bin/ctags'  " Proper Ctags locations
+" let g:tagbar_width=26                          " Default is 40, seems too wide
+" noremap <silent> <Leader>y :TagbarToggle       " Display panel with \\y (or ,y)
 
 let g:fuf_splitPathMatching=1
 
