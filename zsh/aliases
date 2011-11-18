@@ -1,5 +1,10 @@
 # cd
 alias ..='cd ..'
+# setopt auto_cd
+# cdpath=($HOME/Dropbox/Code $HOME/Dropbox/Code/projects $HOME/Dropbox/Code/projects/ruby)
+
+# vim
+alias mvim="/Applications/MacVim.app/Contents/MacOS/Vim -g"
 
 # ls
 alias ls="ls -F"
