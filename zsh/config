@@ -1,8 +1,9 @@
-if [[ -n $SSH_CONNECTION ]]; then
-  export PS1='%m:%3~$(git_info_for_prompt)%# '
-else
-  export PS1='[%?] %3~$(git_info_for_prompt)%# '
-fi
+#if [[ -n $SSH_CONNECTION ]]; then
+#  export PS1='%m:%3~$(git_info_for_prompt)%# '
+#else
+#  export PS1='[%?] %3~$(git_info_for_prompt)%# '
+#fi
+
 
 export EDITOR='vim'
 export PATH="~/bin:/usr/local/homebrew/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/git/bin:$PATH"
@@ -29,6 +30,10 @@ setopt PROMPT_SUBST
 setopt CORRECT
 setopt COMPLETE_IN_WORD
 setopt IGNORE_EOF
+
+autoload -Uz promptinit
+promptinit
+prompt om
 
 setopt APPEND_HISTORY # adds history
 setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
