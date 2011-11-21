@@ -34,14 +34,14 @@ alias git=hub # brew install hub => teaches git about github
 
 # rails
 alias rials='rails'
-alias sc='script/console'
-alias ss='script/server'
-alias sg='script/generate'
-alias a='autotest -rails'
 alias tlog='tail -f log/development.log'
-alias scaffold='script/generate nifty_scaffold'
-alias migrate='rake db:migrate db:test:clone'
-alias rst='touch tmp/restart.txt'
+alias generate='bundle exec rails g'
+alias scaffold='bundle exec rails scaffold'
+alias migrate='bundle exec rake db:migrate db:test:clone'
+alias restart='touch tmp/restart.txt'
+alias rake='bundle exec rake'
+alias cucumber='bundle exec cucumber'
+alias rspec='bundle exec rspec'
 
 # commands starting with % for pasting from web
 alias %=' '
