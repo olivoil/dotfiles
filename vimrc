@@ -64,6 +64,21 @@ map Q gq
 " text is lost and it only works for putting the current register.
 "vnoremap p "_dp
 
+" Relative line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunction
+
+nnoremap <C-n> :call NumberToggle()<cr>
+:au FocusLost * :set number
+:au FocusGained * :set relativenumber
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
 
 " Gist
 if exists("g:gist_detect_filetype")
@@ -133,7 +148,7 @@ if has("autocmd")
   endif
 
   " Coffeescript auto-compile
-  au BufWritePost *.coffee silent CoffeeMake!
+  " au BufWritePost *.coffee silent CoffeeMake!
 
   " Put these in an autocmd group, so that we can delete them easily.
   augroup vimrcEx
