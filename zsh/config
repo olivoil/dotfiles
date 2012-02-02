@@ -23,10 +23,8 @@ setopt PROMPT_SUBST
 setopt CORRECT
 setopt COMPLETE_IN_WORD
 setopt IGNORE_EOF
+setopt MENUCOMPLETE
 
-autoload -Uz promptinit
-promptinit
-prompt om
 
 setopt APPEND_HISTORY # adds history
 setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
@@ -42,3 +40,27 @@ bindkey '^[[5C' end-of-line
 bindkey '^[[3~' delete-char
 bindkey '^[^N' newtab
 bindkey '^?' backward-delete-char 
+
+# Prompt
+autoload -U colors; colors
+# autoload -Uz rbenv_prompt_info
+# autoload -U zgitinit; 
+zgitinit
+
+local smiley="%(?,%{$fg[green]%}☺%{$reset_color%},%{$fg[red]%}☹%{$reset_color%})"
+local date="%D{%Y-%m-%d} %D{%T}"
+
+if [[ -n $SSH_CONNECTION ]]; then
+PROMPT='
+%m:%~
+${smiley} %{$reset_color%}'
+else
+PROMPT='
+%~
+${smiley} %{$reset_color%}'
+fi
+
+RPROMPT='%{$fg[white]%}${date} $(rbenv_prompt_info)%{$reset_color%} $(~/.git-cwd-info.rb)'
+
+
+# vim:set ft=zsh:

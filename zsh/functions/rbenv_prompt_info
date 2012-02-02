@@ -1,0 +1,9 @@
+function rbenv_prompt_info() {
+  version_string=$(rbenv version-name)
+  [ -f "$(pwd)/.rbenv-gemsets" ] && gemset_string=" @$(rbenv gemset active | cut -d' ' -fl)"
+  if [ ! $version_string = '' ]; then
+    echo "ruby-$version_string$gemset_string"
+  fi
+}
+
+# vim:set ft=zsh:

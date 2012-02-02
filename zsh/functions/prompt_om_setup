@@ -1,6 +1,3 @@
-# om prompt theme
-# copied from wunjo prompt theme and modified
-
 autoload -U zgitinit
 zgitinit
 

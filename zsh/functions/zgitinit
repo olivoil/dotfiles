@@ -235,9 +235,21 @@ zgit_rebaseinfo() {
 	return 0
 }
 
-add-zsh-hook chpwd zgit_chpwd_hook
-add-zsh-hook preexec zgit_preexec_hook
-add-zsh-hook precmd zgit_precmd_hook
+zgitinit() {
+  typeset -ga chpwd_functions
+  typeset -ga preexec_functions
+  typeset -ga precmd_functions
+  chpwd_functions+='zgit_chpwd_hook'
+  preexec_functions+='zgit_preexec_hook'
+  precomd_funcitons+='zgit_precmd_hook'
+}
+
+zgitinit
+zgit_info_update
+
+# add-zsh-hook chpwd zgit_chpwd_hook
+# add-zsh-hook preexec zgit_preexec_hook
+# add-zsh-hook precmd zgit_precmd_hook
 
 zgit_info_update
 
