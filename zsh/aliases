@@ -35,13 +35,12 @@ alias git=hub # brew install hub => teaches git about github
 # rails
 alias rials='rails'
 alias tlog='tail -f log/development.log'
-alias generate='bundle exec rails g'
-alias scaffold='bundle exec rails scaffold'
-alias migrate='bundle exec rake db:migrate db:test:clone'
+alias bi='bundle install --binstubs=.bin'
+alias be='bundle exec'
+alias generate='rails g'
+alias scaffold='rails scaffold'
+alias migrate='rake db:migrate db:test:clone'
 alias restart='touch tmp/restart.txt'
-alias rake='bundle exec rake'
-alias cucumber='bundle exec cucumber'
-alias rspec='bundle exec rspec'
 
 # commands starting with % for pasting from web
 alias %=' '
