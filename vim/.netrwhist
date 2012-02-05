@@ -1,8 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
-let g:netrw_dirhist_1='/Users/olivier/Dropbox/Code/libraries/js/cucumber-js'
-let g:netrw_dirhist_2='/Users/olivier/Dropbox/Code/tmp/bar'
-let g:netrw_dirhist_3='/Users/olivier/Dropbox/Code/playground/tasks'
-let g:netrw_dirhist_4='/Users/olivier/Dropbox/Code/playground/rationalruby'
-let g:netrw_dirhist_5='/Users/olivier/Dropbox/Code/playground/dish'
-let g:netrw_dirhist_6='/Users/olivier/.dotfiles/zsh'
