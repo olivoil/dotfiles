@@ -1,8 +1,12 @@
 function rbenv_prompt_info() {
-  version_string=$(rbenv version-name)
+  ruby_version_string=$(rbenv version-name)
+  rails_version_string=$(rails --version 2>&1 | sed 's/Rails //' 2>/dev/null)
   [ -f "$(pwd)/.rbenv-gemsets" ] && gemset_string=" @$(rbenv gemset active | cut -d' ' -fl)"
-  if [ ! $version_string = '' ]; then
-    echo "ruby-$version_string$gemset_string"
+  if [ ! $ruby_version_string = '' ]; then
+    echo -n "ruby-$ruby_version_string$gemset_string"
+    if [ ! $rails_version_string = '' ]; then
+      echo -n " rails-$rails_version_string"
+    fi
   fi
 }
 
