@@ -1,10 +1,7 @@
-" based on http://github.com/jferris/config_files/blob/master/vimrc
-
-
 " MapLeader
 let mapleader=","
 
-" W to save
+" Tired of typos between w/W and q/Q 
 command WQ wq
 command Wq wq
 command W w
@@ -59,10 +56,6 @@ set incsearch		" do incremental searching
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
-
-" This is an alternative that also works in block mode, but the deleted
-" text is lost and it only works for putting the current register.
-"vnoremap p "_dp
 
 " Relative line numbers
 function! NumberToggle()
@@ -121,7 +114,7 @@ if has("gui_running")
 endif
 
 " Switch wrap off for everything
-set nowrap
+" set nowrap
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -201,13 +194,17 @@ hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
 imap <c-c> <esc>
 
 
-" \ is the leader character
-let mapleader = ","
-
 " Edit the README_FOR_APP (makes :R commands work)
 map <Leader>R :e doc/README_FOR_APP<CR>
 
-" Leader shortcuts for Rails commands
+
+
+
+
+
+"
+" Rails Stuff
+"
 map <Leader>m :Rmodel 
 map <Leader>c :Rcontroller 
 map <Leader>v :Rview 
@@ -224,6 +221,55 @@ map <Leader>sv :RSview
 map <Leader>su :RSunittest 
 map <Leader>sf :RSfunctionaltest 
 
+" Edit routes
+command! Rroutes :e config/routes.rb
+command! Rschema :e db/schema.rb
+
+
+"
+" Ruby Stuff
+"
+
+" extract selected lines to before block
+vmap <Leader>bed "td?describe<cr>obefore(:each) do<cr><esc>ddk"tpjo<esc>
+
+"
+" Movements
+"
+
+" Switch between split buffers
+set wmh=0
+map <S-H> <C-W>h
+map <S-J> <C-W>j
+map <S-K> <C-W>k
+map <S-L> <C-W>l
+
+" Move lines up and down
+map <C-J> :m +1 <CR>
+map <C-K> :m -2 <CR>
+
+" Alias window controls
+cmap <Leader>w <C-w>
+
+" Switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+"
+" Completion
+"
+
+" Snippets are activated by Shift+Tab
+let g:snippetsEmu_key = "<S-Tab>"
+
+" Tab completion options
+" (only complete to the longest unambiguous match, and show a menu)
+set completeopt=longest,menu
+set wildmode=list:longest,list:full
+set complete=.,t
+
+
+
+
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
 
@@ -235,21 +281,10 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " Normal mode: <Leader>t
 map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
-" Window commands
-set wmh=0
-map <S-H> <C-W>h
-map <S-J> <C-W>j
-map <S-K> <C-W>k
-map <S-L> <C-W>l
-
-
-" Move lines up and down
-map <C-J> :m +1 <CR>
-map <C-K> :m -2 <CR>
-
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+
 
 " Duplicate a selection
 " Visual mode: D
@@ -280,27 +315,15 @@ ab NT NERDTreeToggle
 vmap > >gv
 vmap < <gv
 
-" Alias window controls
-cmap <Leader>w <C-w>
 
 " Set minimum pane height to 5 lines
 set winwidth=84
-" We have to have a winheight bigger than we want to set winminheight. But if
-" " we set winheight to be huge before winminheight, the winminheight set will
-" " fail.
 set winheight=5
 set winminheight=5
 set winheight=999
 
-" Switch between the last two files
-nnoremap <leader><leader> <c-^>
-
 " Display extra whitespace
-" set list listchars=tab:»·,trail:·
-
-" Edit routes
-command! Rroutes :e config/routes.rb
-command! Rschema :e db/schema.rb
+set list listchars=tab:»·,trail:·
 
 " Local config
 if filereadable(".vimrc.local")
@@ -316,14 +339,6 @@ endif
 set number
 set numberwidth=5
 
-" Snippets are activated by Shift+Tab
-let g:snippetsEmu_key = "<S-Tab>"
-
-" Tab completion options
-" (only complete to the longest unambiguous match, and show a menu)
-set completeopt=longest,menu
-set wildmode=list:longest,list:full
-set complete=.,t
 
 " case only matters with mixed case expressions
 set ignorecase
