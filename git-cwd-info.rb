@@ -52,6 +52,10 @@ def rebasing_etc
   end
 end
 
+def separator
+  "%{\e[37m%}#{ARGV[0]} %{\e[0m%}"
+end
+
 if in_git_repo
-  print " %{\e[90m%}#{git_parse_branch} %{\e[37m%}#{git_head_commit_id}%{\e[0m%}#{rebasing_etc}#{git_cwd_dirty}#{git_cwd_untracked}#{git_cwd_staged}"
+  print "#{separator}%{\e[90m%}#{git_parse_branch} %{\e[37m%}#{git_head_commit_id}%{\e[0m%}#{rebasing_etc}#{git_cwd_dirty}#{git_cwd_untracked}#{git_cwd_staged}"
 end
