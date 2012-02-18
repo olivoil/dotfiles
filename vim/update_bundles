@@ -4,39 +4,31 @@ git_bundles = [
   "git://github.com/derekwyatt/vim-scala.git", # scala support
   "git://github.com/skammer/vim-css-color.git", # color css codes
   "git://github.com/godlygeek/tabular.git", # adjusts tables for cuke's scenarios
-  "git://github.com/kana/vim-textobj-user.git", # dependency
-  "git://github.com/nelstrom/vim-textobj-rubyblock.git", # select ruby blocks with 'var' and 'vir'
-  "git://github.com/mikewest/vimroom.git", # Write peacefully with <Leader>V or :VimroomToggle
-  "git://github.com/kikijump/tslime.vim.git",
-  "git://github.com/tpope/vim-bundler.git",
-  "git://github.com/skwp/greplace.vim.git",
   "git://git.wincent.com/command-t.git", # open files by typing their names
-  "git://github.com/astashov/vim-ruby-debugger.git",
   "git://github.com/msanders/snipmate.vim.git", # Snippets of code
   "git://github.com/scrooloose/nerdtree.git", # File drawer
-  "git://github.com/timcharper/textile.vim.git",
   "git://github.com/altercation/vim-colors-solarized.git", # Best color theme
+  "git://github.com/vim-ruby/vim-ruby.git",
+  "git://github.com/tpope/vim-bundler.git", # use :Bundle
   "git://github.com/tpope/vim-endwise.git",
   "git://github.com/tpope/vim-cucumber.git", # Cucumber
   "git://github.com/tpope/vim-fugitive.git", # Use :Gblame mostly
   "git://github.com/tpope/vim-git.git",
-  "git://github.com/mattn/gist-vim.git", # Post selection to gist.github.com
   "git://github.com/tpope/vim-haml.git", # Haml
   "git://github.com/tpope/vim-markdown.git", # Markdown
   "git://github.com/tpope/vim-ragtag.git",
-  "git://github.com/vim-scripts/taglist.vim.git",
-  "git://github.com/vim-scripts/AutoTag.git",
   "git://github.com/tpope/vim-rails.git", # Rails
   "git://github.com/tpope/vim-repeat.git",
   "git://github.com/tpope/vim-surround.git", # Change surroundings from () to {} with 'cs({'
   "git://github.com/tpope/vim-vividchalk.git",
+  "git://github.com/mattn/gist-vim.git", # Post selection to gist.github.com
+  "git://github.com/vim-scripts/taglist.vim.git",
+  "git://github.com/vim-scripts/AutoTag.git",
   "git://github.com/tsaleh/vim-align.git",
   "git://github.com/tsaleh/vim-shoulda.git",
   "git://github.com/tsaleh/vim-supertab.git",
-  "git://github.com/vim-ruby/vim-ruby.git",
   "git://github.com/kchmck/vim-coffee-script.git", # Coffeescript
   "git://github.com/henrik/vim-indexed-search.git",
-  "git://github.com/olivoil/vim-jst.git", # Syntax highlinghting for .jst templates
   "git://github.com/mattn/zencoding-vim.git",
   "git://github.com/taq/vim-rspec.git", # RSpec
   "git://github.com/sunaku/vim-ruby-minitest.git", # Minitest completion and highlighting
@@ -48,6 +40,7 @@ git_bundles = [
 ]
 
 vim_org_scripts = [
+  # if you can't find it on github:
   # ["IndexedSearch", "7062",  "plugin"]
 ]
 
