@@ -1,28 +1,13 @@
+"
+" Config
+"
+
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
 " MapLeader
 let mapleader=","
-
-" Tired of typos between w/W and q/Q 
-command WQ wq
-command Wq wq
-command W w
-command Q q
-
-" Fullscreen on OSX
-" <Leader>1 toggles full screen on and off
-if has("gui_running")
-  let g:fullScreened = 0
-  set nofullscreen
-  function ToggleFullScreen()
-    if g:fullScreened == 0
-      let g:fullScreened = 1
-      set fullscreen
-    else
-      let g:fullScreened = 0
-      set nofullscreen
-    endif
-  endfunction
-  map <Leader>1 :call ToggleFullScreen()<CR>
-endif
 
 " pathogen bundles
 filetype off
@@ -31,10 +16,6 @@ call pathogen#runtime_append_all_bundles()
 
 " Set shell
 set shell=/bin/zsh
-
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -54,24 +35,23 @@ set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
 set incsearch		" do incremental searching
 
-" Don't use Ex mode, use Q for formatting
-map Q gq
+" case only matters with mixed case expressions
+set ignorecase
+set smartcase
 
-" Relative line numbers
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set number
-  else
-    set relativenumber
-  endif
-endfunction
+" Local config
+if filereadable(".vimrc.local")
+  source .vimrc.local
+endif
 
-nnoremap <C-n> :call NumberToggle()<cr>
-:au FocusLost * :set number
-:au FocusGained * :set relativenumber
-autocmd InsertEnter * :set number
-autocmd InsertLeave * :set relativenumber
 
+
+
+
+
+"
+" Plugins specific config
+"
 
 " Gist
 if exists("g:gist_detect_filetype")
@@ -80,41 +60,6 @@ endif
 if exists("g:gist_open_browser_after_post")
   let g:gist_open_browser_after_post = 1
 endif
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-  set hlsearch
-endif
-
-" Solarized colors plugin configuration
-" Toggle change of background with Conrol + Backtick (tilde key on Mac Book Pro 13 inch keyboard
-if has('gui_running')
-  colorscheme solarized
-  set background=dark
-  call togglebg#map("<Leader>`")
-endif
-
-if has("gui_running")
-    " GRB: set font"
-    "   "set nomacatsui anti enc=utf-8 gfn=Monaco:h12
-    
-    " GRB: set window size"
-      set lines=100
-      set columns=171
-
-    " GRB: highlight current line"
-      set cursorline
-endif
-
-" GRB: hide the toolbar in GUI mode
-if has("gui_running")
-  set go-=T
-endif
-
-" Switch wrap off for everything
-" set nowrap
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -126,6 +71,9 @@ if has("autocmd")
 
   " Set File type to 'text' for files ending in .txt
   autocmd BufNewFile,BufRead *.txt setfiletype text
+
+  " For Haml
+  autocmd BufRead,BufNewFile *.haml setfiletype haml
 
   " Enable soft-wrapping for text files
   autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
@@ -140,7 +88,7 @@ if has("autocmd")
     autocmd FileType jst call RagtagInit()
   endif
 
-  " Coffeescript auto-compile
+  " Coffeescript auto-compile - actually that might be annoying...
   " au BufWritePost *.coffee silent CoffeeMake!
 
   " Put these in an autocmd group, so that we can delete them easily.
@@ -160,42 +108,10 @@ if has("autocmd")
 
   " Automatically load .vimrc source when saved
   autocmd BufWritePost .vimrc source $MYVIMRC
-
   augroup END
-
 else
-
   set autoindent		" always set autoindenting on
-
 endif " has("autocmd")
-
-if has("folding")
-  set foldenable
-  set foldmethod=syntax
-  set foldlevel=1
-  set foldnestmax=2
-  set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
-endif
-
-" Softtabs, 2 spaces
-set tabstop=2
-set shiftwidth=2
-set expandtab
-
-" Always display the status line
-set laststatus=2
-
-" GRB: Put useful info in status line
-" set statusline=%<%f\\\\\\\\\\\\\\\\ (%{&ft})\\\\\\\\\\\\\\\\ %-4(%m%)%=%-19(%3l,%02c%03V%)
-hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
-
-" Can't be bothered to understand the difference between ESC and <c-c> in
-" insert mode
-imap <c-c> <esc>
-
-
-" Edit the README_FOR_APP (makes :R commands work)
-map <Leader>R :e doc/README_FOR_APP<CR>
 
 
 
@@ -233,6 +149,8 @@ command! Rschema :e db/schema.rb
 " extract selected lines to before block
 vmap <Leader>bed "td?describe<cr>obefore(:each) do<cr><esc>ddk"tpjo<esc>
 
+" Edit the README_FOR_APP (makes :R commands work)
+map <Leader>R :e doc/README_FOR_APP<CR>
 
 " Switch between spec and source file
 " Adapted from https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
@@ -286,6 +204,14 @@ endfunction
 
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
+" Tags
+let g:Tlist_Ctags_Cmd="/usr/local/bin/ctags --exclude='*.js'"
+set tags=./tags;
+" let g:tagbar_ctags_bin='/usr/local/bin/ctags'  " Proper Ctags locations
+" let g:tagbar_width=26                          " Default is 40, seems too wide
+" noremap <silent> <Leader>y :TagbarToggle       " Display panel with \\y (or ,y)
+
+
 
 
 
@@ -324,10 +250,26 @@ set wildmode=list:longest,list:full
 set complete=.,t
 
 
+"
+" Shortcuts
+"
 
+" Can't be bothered to understand the difference between ESC and <c-c> in
+" insert mode
+imap <c-c> <esc>
+
+" Copy & paste with system clipboard
+map <C-p> "*p
+vmap <C-y> "*y
 
 " Hide search highlighting
 map <Leader>h :set invhls <CR>
+
+" Tired of typos between :w/:W and :q/:Q
+command WQ wq
+command Wq wq
+command W w
+command Q q
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
@@ -341,7 +283,6 @@ map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
-
 " Duplicate a selection
 " Visual mode: D
 vmap D y'>p
@@ -349,9 +290,6 @@ vmap D y'>p
 " Press Shift+P while in visual mode to replace the selection without
 " overwriting the default register
 vmap P p :call setreg('"', getreg('0')) <CR>
-
-" For Haml
-au! BufRead,BufNewFile *.haml         setfiletype haml
 
 " No Help, please
 nmap <F1> <Esc>
@@ -365,12 +303,18 @@ imap <S-Tab> <C-P>
 imap <C-L> <Space>=><Space>
 
 " Toggle NerdTree
-ab NT NERDTreeToggle
+" ab NT NERDTreeToggle
+
+
+
+
+"
+" Aesthetics
+"
 
 " Keep selection when indenting in visual mode
 vmap > >gv
 vmap < <gv
-
 
 " Set minimum pane height to 5 lines
 set winwidth=84
@@ -378,34 +322,107 @@ set winheight=5
 set winminheight=5
 set winheight=999
 
+" Foldings
+if has("folding")
+  set foldenable
+  set foldmethod=syntax
+  set foldlevel=1
+  set foldnestmax=2
+  set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
+endif
+
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
 
-" Local config
-if filereadable(".vimrc.local")
-  source .vimrc.local
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" Always display the status line
+set laststatus=2
+
+" GRB: Put useful info in status line
+" set statusline=%<%f\\\\\\\\\\\\\\\\ (%{&ft})\\\\\\\\\\\\\\\\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
+" Line Numbers
+set numberwidth=5
+
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunction
+
+nnoremap <C-n> :call NumberToggle()<cr>
+:au FocusLost * :set number
+:au FocusGained * :set relativenumber
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
+" Fullscreen on OSX
+" <Leader>1 toggles full screen on and off
+if has("gui_running")
+  let g:fullScreened = 0
+  set nofullscreen
+  function ToggleFullScreen()
+    if g:fullScreened == 0
+      let g:fullScreened = 1
+      set fullscreen
+    else
+      let g:fullScreened = 0
+      set nofullscreen
+    endif
+  endfunction
+  map <Leader>1 :call ToggleFullScreen()<CR>
 endif
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+  syntax on
+  set hlsearch
+endif
+
+" Solarized colors plugin configuration
+" Toggle change of background with Conrol + Backtick (tilde key on Mac Book Pro 13 inch keyboard
+if has('gui_running')
+  colorscheme solarized
+  set background=dark
+  call togglebg#map("<Leader>`")
+endif
+
+if has("gui_running")
+    " set font
+    set nomacatsui anti enc=utf-8 gfn=Monaco:h12
+
+    " set window size"
+    set lines=100
+    set columns=171
+
+    " highlight current line"
+    set cursorline
+endif
+
+" hide the toolbar in GUI mode
+if has("gui_running")
+  set go-=T
+endif
+
+
+
+
+
+
 
 " Use Ack instead of Grep when available
 " if executable("ack")
   " set grepprg=ack\\ -H\\ --nogroup\\ --nocolor\\ --ignore-dir=tmp\\ --ignore-dir=coverage
 " endif
 
-" Numbers
-set number
-set numberwidth=5
 
-
-" case only matters with mixed case expressions
-set ignorecase
-set smartcase
-
-" Tags
-let g:Tlist_Ctags_Cmd="/usr/local/bin/ctags --exclude='*.js'"
-set tags=./tags;
-" let g:tagbar_ctags_bin='/usr/local/bin/ctags'  " Proper Ctags locations
-" let g:tagbar_width=26                          " Default is 40, seems too wide
-" noremap <silent> <Leader>y :TagbarToggle       " Display panel with \\y (or ,y)
 
 let g:fuf_splitPathMatching=1
 
@@ -415,10 +432,9 @@ function! OpenURL()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
   echo s:uri
   if s:uri != ""
-	  exec "!open \"" . s:uri . "\""
+    exec "!open \"" . s:uri . "\""
   else
-	  echo "No URI found in line."
+    echo "No URI found in line."
   endif
 endfunction
 map <Leader>w :call OpenURL()<CR>
-
