@@ -1,6 +1,8 @@
+"""""""""""""""
 "
 " Config
 "
+"""""""""""""""
 
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -45,13 +47,11 @@ if filereadable(".vimrc.local")
 endif
 
 
-
-
-
-
+"""""""""""""""
 "
 " Plugins specific config
 "
+"""""""""""""""
 
 " Gist
 if exists("g:gist_detect_filetype")
@@ -60,6 +60,12 @@ endif
 if exists("g:gist_open_browser_after_post")
   let g:gist_open_browser_after_post = 1
 endif
+
+" FuzzyFinder
+let g:fuf_splitPathMatching=1
+" mnemonic 'g' for 'go to'
+ab G FufFile
+map <Leader>g :FufFile<cr>
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -115,12 +121,12 @@ endif " has("autocmd")
 
 
 
-
-
-
+"""""""""""""""
 "
 " Rails Stuff
 "
+"""""""""""""""
+
 map <Leader>m :Rmodel 
 map <Leader>c :Rcontroller 
 map <Leader>v :Rview 
@@ -142,9 +148,11 @@ command! Rroutes :e config/routes.rb
 command! Rschema :e db/schema.rb
 
 
+"""""""""""""""
 "
 " Ruby Stuff
 "
+"""""""""""""""
 
 " extract selected lines to before block
 vmap <Leader>bed "td?describe<cr>obefore(:each) do<cr><esc>ddk"tpjo<esc>
@@ -214,10 +222,11 @@ set tags=./tags;
 
 
 
-
+"""""""""""""""
 "
 " Movements
 "
+"""""""""""""""
 
 " Switch between split buffers
 set wmh=0
@@ -227,8 +236,8 @@ map <S-K> <C-W>k
 map <S-L> <C-W>l
 
 " Move lines up and down
-map <C-J> :m +1 <CR>
-map <C-K> :m -2 <CR>
+nmap <C-J> :m +1 <CR>
+nmap <C-K> :m -2 <CR>
 
 " Alias window controls
 cmap <Leader>w <C-w>
@@ -236,23 +245,25 @@ cmap <Leader>w <C-w>
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-"
-" Completion
-"
-
 " Snippets are activated by Shift+Tab
 let g:snippetsEmu_key = "<S-Tab>"
 
 " Tab completion options
-" (only complete to the longest unambiguous match, and show a menu)
-set completeopt=longest,menu
+""" Only complete to the longest unambiguous match, and show a menu
+set completeopt=longest,menuone
 set wildmode=list:longest,list:full
 set complete=.,t
+""" Smart selection and movements
+inoremap <expr> <CR>  pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>'  : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <C-p> pumvisible() ? '<C-p>'  : '<C-p><C-r>=pumvisible() ? "\<lt>Up>"   : ""<CR>'
 
 
+"""""""""""""""
 "
 " Shortcuts
 "
+"""""""""""""""
 
 " Can't be bothered to understand the difference between ESC and <c-c> in
 " insert mode
@@ -266,10 +277,18 @@ vmap <C-y> "*y
 map <Leader>h :set invhls <CR>
 
 " Tired of typos between :w/:W and :q/:Q
-command WQ wq
-command Wq wq
-command W w
-command Q q
+ab W w
+ab WQ wq
+ab Wq wq
+ab WA wa
+ab Wa wa
+ab Q q
+ab A a
+ab QA qa
+ab Qa qa
+ab WqA wqa
+ab WQa wqa
+ab Wqa wqa
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
@@ -303,14 +322,14 @@ imap <S-Tab> <C-P>
 imap <C-L> <Space>=><Space>
 
 " Toggle NerdTree
-" ab NT NERDTreeToggle
+ab NT NERDTreeToggle
 
 
-
-
+"""""""""""""""
 "
 " Aesthetics
 "
+"""""""""""""""
 
 " Keep selection when indenting in visual mode
 vmap > >gv
@@ -412,19 +431,10 @@ if has("gui_running")
 endif
 
 
-
-
-
-
-
 " Use Ack instead of Grep when available
 " if executable("ack")
   " set grepprg=ack\\ -H\\ --nogroup\\ --nocolor\\ --ignore-dir=tmp\\ --ignore-dir=coverage
 " endif
-
-
-
-let g:fuf_splitPathMatching=1
 
 " Open URL
 command! -bar -nargs=1 OpenURL :!open <args>
