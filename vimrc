@@ -67,6 +67,7 @@ let g:fuf_splitPathMatching=1
 ab G FufFile
 map <Leader>g :FufFile<cr>
 
+
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
   " Enable file type detection.
@@ -82,7 +83,7 @@ if has("autocmd")
   autocmd BufRead,BufNewFile *.haml setfiletype haml
 
   " Enable soft-wrapping for text files
-  autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
+  autocmd FileType text,markdown,eco,html,xhtml,eruby setlocal wrap linebreak nolist
 
   augroup mkd
     autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
@@ -92,6 +93,7 @@ if has("autocmd")
   " Enable ragtag for additional filetypes
   if exists("g:loaded_ragtag")
     autocmd FileType jst call RagtagInit()
+    autocmd FileType eco call RagtagInit()
   endif
 
   " Coffeescript auto-compile - actually that might be annoying...
@@ -146,6 +148,7 @@ map <Leader>sf :RSfunctionaltest
 " Edit routes
 command! Rroutes :e config/routes.rb
 command! Rschema :e db/schema.rb
+command! Rrestart :!touch tmp/restart.txt
 
 
 """""""""""""""
