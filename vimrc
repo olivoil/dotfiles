@@ -157,8 +157,8 @@ command! Rrestart :!touch tmp/restart.txt
 "
 """""""""""""""
 
-" extract selected lines to before block
-vmap <Leader>bed "td?describe<cr>obefore(:each) do<cr><esc>ddk"tpjo<esc>
+" extract selected lines to 'before do' block
+vmap <Leader>bd "td?describe<cr>obefore(:each) do<cr><esc>ddk"tpjo<esc>
 
 " Edit the README_FOR_APP (makes :R commands work)
 map <Leader>R :e doc/README_FOR_APP<CR>
