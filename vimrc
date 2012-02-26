@@ -116,6 +116,7 @@ if has("autocmd")
 
   " Automatically load .vimrc source when saved
   autocmd BufWritePost .vimrc source $MYVIMRC
+  " autocmd BufWritePost ~/.dotfiles/vimrc source $MYVIMRC
   augroup END
 else
   set autoindent		" always set autoindenting on
@@ -158,7 +159,7 @@ command! Rrestart :!touch tmp/restart.txt
 """""""""""""""
 
 " extract selected lines to 'before do' block
-vmap <Leader>bd "td?describe<cr>obefore(:each) do<cr><esc>ddk"tpjo<esc>
+vmap <Leader>bd "td?describe\\|context<cr>obefore do<cr><esc>ddk"tpjo<esc>
 
 " Edit the README_FOR_APP (makes :R commands work)
 map <Leader>R :e doc/README_FOR_APP<CR>
@@ -233,14 +234,16 @@ set tags=./tags;
 
 " Switch between split buffers
 set wmh=0
-map <S-H> <C-W>h
-map <S-J> <C-W>j
-map <S-K> <C-W>k
-map <S-L> <C-W>l
+nmap <S-H> <C-W>h
+nmap <S-J> <C-W>j
+nmap <S-K> <C-W>k
+nmap <S-L> <C-W>l
 
 " Move lines up and down
-nmap <C-J> :m +1 <CR>
-nmap <C-K> :m -2 <CR>
+map <C-J> :m +1 <CR>
+map <C-K> :m -2 <CR>
+vmap <C-J> :m +1 <CR>gv
+vmap <C-K> :m -2 <CR>gv
 
 " Alias window controls
 cmap <Leader>w <C-w>
@@ -405,6 +408,8 @@ endif
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
   set hlsearch
+  " highlight Search ctermbg=black ctermfg=yellow cterm=underline  term=underline
+  highlight Search ctermbg=black guibg=black term=underline cterm=underline gui=underline
 endif
 
 " Solarized colors plugin configuration
