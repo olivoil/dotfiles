@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'net/http'
+require 'time'
+
+
 git_bundles = [ 
   "git://github.com/derekwyatt/vim-scala.git", # scala support
   "git://github.com/skammer/vim-css-color.git", # color css codes
@@ -40,21 +44,46 @@ git_bundles = [
 ]
 
 vim_org_scripts = [
-  # if you can't find it on github:
+  # if you can't find it on github, look for vim scripts:
   # ["IndexedSearch", "7062",  "plugin"]
 ]
 
-def check_host(host)
-  result = `ping -q -c 2 #{host}`
-  $?.exitstatus == 0
+def check_web(host, file='/')
+  begin
+    Net::HTTP.start(host) do |http|
+      response = http.get(file)
+      if not response.code.match(/200/)
+        log_error("Web Server down or not resonding: #{response.code} #{response.message}")
+        false
+      end
+      true
+    end
+  rescue SocketError => socket_error
+    log_error("Error Connecting To Web: #{socket_error}")
+  rescue TimeoutError => timeout_error
+    log_error("Web connection timed out: #{timeout_error}")
+  end
 end
 
+def log_error(error, log_file = '/tmp/vim_update.log', stderr = $stderr)
+  msg = Time.now.rfc2822.to_s + ": " + error
+  stderr.puts msg
+  File.open(log_file, 'a') do |log|
+    log.puts msg
+  end
+end
+
+# def check_host(host)
+#   result = `ping -q -c 2 #{host}`
+#   $?.exitstatus == 0
+# end
+
 def github_com?
-  check_host('github.com')
+  check_web('https://www.github.com')
 end
 
 def vim_org?
-  check_host('www.vim.org')
+  check_web('http://www.vim.org')
 end
 
 require 'fileutils'
