@@ -85,6 +85,10 @@ if has("autocmd")
   " Enable soft-wrapping for text files
   autocmd FileType text,markdown,eco,html,xhtml,eruby setlocal wrap linebreak nolist
 
+  " Jbuilder an Rabl templates
+  autocmd BufRead,BufNewFile *.jbuilder setfiletype ruby
+  autocmd BufRead,BufNewFile *.rabl setfiletype ruby
+
   augroup mkd
     autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
     autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
@@ -344,7 +348,14 @@ vmap < <gv
 set winwidth=84
 set winheight=5
 set winminheight=5
-set winheight=999
+
+set previewheight=50
+au BufEnter ?* call PreviewHeightWorkAround()
+func PreviewHeightWorkAround()
+    if &previewwindow
+        exec 'setlocal winheight='.&previewheight
+    endif
+endfunc
 
 " Foldings
 if has("folding")
@@ -408,8 +419,7 @@ endif
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
   set hlsearch
-  " highlight Search ctermbg=black ctermfg=yellow cterm=underline  term=underline
-  highlight Search ctermbg=black guibg=black term=underline cterm=underline gui=underline
+  highlight Search term=underline cterm=underline gui=underline
 endif
 
 " Solarized colors plugin configuration
