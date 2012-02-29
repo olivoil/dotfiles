@@ -220,9 +220,15 @@ endfunction
 
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
-" Tags
-let g:Tlist_Ctags_Cmd="/usr/local/bin/ctags --exclude='*.js'"
-set tags=./tags;
+" Ctags
+map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
+nnoremap <silent> <C-I> :TlistToggle<CR>
+let g:Tlist_Ctags_Cmd="/usr/local/bin/ctags --extra=+f -R"
+let g:Tlist_Use_Right_Window = 1
+let g:Tlist_Enable_Fold_Column = 1
+let g:Tlist_Exit_OnlyWindow = 1
+let g:Tlist_Compact_Format = 1
+" set tags=./tags;
 " let g:tagbar_ctags_bin='/usr/local/bin/ctags'  " Proper Ctags locations
 " let g:tagbar_width=26                          " Default is 40, seems too wide
 " noremap <silent> <Leader>y :TagbarToggle       " Display panel with \\y (or ,y)
@@ -248,9 +254,6 @@ map <C-J> :m +1 <CR>
 map <C-K> :m -2 <CR>
 vmap <C-J> :m +1 <CR>gv
 vmap <C-K> :m -2 <CR>gv
-
-" Alias window controls
-cmap <Leader>w <C-w>
 
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
@@ -332,6 +335,8 @@ imap <C-L> <Space>=><Space>
 
 " Toggle NerdTree
 ab NT NERDTreeToggle
+nnoremap <silent> <C-U> :NERDTreeToggle<CR>
+
 
 
 """""""""""""""
@@ -351,7 +356,7 @@ set winminheight=5
 
 set previewheight=50
 au BufEnter ?* call PreviewHeightWorkAround()
-func PreviewHeightWorkAround()
+func! PreviewHeightWorkAround()
     if &previewwindow
         exec 'setlocal winheight='.&previewheight
     endif
@@ -377,9 +382,10 @@ set expandtab
 " Always display the status line
 set laststatus=2
 
-" GRB: Put useful info in status line
+" Put useful info in status line
+set statusline=%<%f%=%(%{&ft}[%{Tlist_Get_Tagname_By_Line()}]%)
 " set statusline=%<%f\\\\\\\\\\\\\\\\ (%{&ft})\\\\\\\\\\\\\\\\ %-4(%m%)%=%-19(%3l,%02c%03V%)
-hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
+hi User1 term=inverse,bold cterm=inverse,bold,underline ctermfg=red
 " Line Numbers
 set numberwidth=5
 
@@ -464,4 +470,3 @@ function! OpenURL()
     echo "No URI found in line."
   endif
 endfunction
-map <Leader>w :call OpenURL()<CR>
