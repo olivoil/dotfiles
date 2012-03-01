@@ -163,7 +163,40 @@ command! Rrestart :!touch tmp/restart.txt
 """""""""""""""
 
 " extract selected lines to 'before do' block
-vmap <Leader>bd "td?describe\\|context<cr>obefore do<cr><esc>ddk"tpjo<esc>
+" vmap <Leader>bd "td?describe\\|context<cr>obefore do<cr><esc>ddk"tpjo<esc>
+function! PromoteToBefore()
+  let rv = @"
+  let rt = getregtype('"')
+  try
+    :norm! gvd
+    :exec '?^\s*describe\|context\>'
+    :normal! obefore do
+    :normal! gp
+    :normal! koend
+  finally
+    call setreg('"', rv, rt)
+  endtry
+endfunction
+:command! -range PromoteToBefore :call PromoteToBefore()
+:vmap <Leader>bd :PromoteToBefore<cr>
+
+" promote to let
+" map  <Leader>let vt=clet(:pi)wi{ldlA }Vd?^\s*describe\|contextpV==q
+function! PromoteToLet()
+  let rv = @"
+  let rt = getregtype('"')
+  try
+    :normal! dd
+    :exec '?^\s*describe\|context\>'
+    :normal! p
+    :.s/\(\w\+\) = \(.*\)$/let(:\1) { \2 }/
+    :normal ==
+  finally
+    call setreg('"', rv, rt)
+  endtry
+endfunction
+:command! PromoteToLet :call PromoteToLet()
+:map <Leader>let :PromoteToLet<cr>
 
 " Edit the README_FOR_APP (makes :R commands work)
 map <Leader>R :e doc/README_FOR_APP<CR>
