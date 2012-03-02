@@ -461,13 +461,10 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   highlight Search term=underline cterm=underline gui=underline
 endif
 
-" Solarized colors plugin configuration
-" Toggle change of background with Conrol + Backtick (tilde key on Mac Book Pro 13 inch keyboard
-if has('gui_running')
-  colorscheme solarized
-  set background=dark
-  call togglebg#map("<Leader>`")
-endif
+" Solarized colors
+set background=dark
+colorscheme solarized
+call togglebg#map("<Leader>`")
 
 if has("gui_running")
     " set font
