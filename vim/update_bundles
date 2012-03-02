@@ -5,107 +5,121 @@ require 'time'
 require 'fileutils'
 require 'open-uri'
 
-git_bundles = [
-  "git://github.com/derekwyatt/vim-scala.git",             # scala support
-  "git://github.com/skammer/vim-css-color.git",            # color css codes
-  "git://github.com/godlygeek/tabular.git",                # adjusts tables for cuke's scenarios
-  "git://github.com/msanders/snipmate.vim.git",            # Snippets of code
-  "git://github.com/scrooloose/nerdtree.git",              # File drawer
-  "git://github.com/altercation/vim-colors-solarized.git", # Best color theme
-  "git://github.com/vim-ruby/vim-ruby.git",                # Ruby
-  "git://github.com/tpope/vim-bundler.git",                # use :Bundle
-  "git://github.com/tpope/vim-endwise.git",                # Add closing brackets for blocks (i.e. class => end in ruby)
-  "git://github.com/tpope/vim-cucumber.git",               # Cucumber
-  "git://github.com/tpope/vim-fugitive.git",               # :Gblame, :Gstatus
-  "git://github.com/tpope/vim-git.git",
-  "git://github.com/tpope/vim-markdown.git",               # Markdown
-  "git://github.com/tpope/vim-ragtag.git",                 # html tag snippets
-  "git://github.com/tpope/vim-rails.git",                  # Rails
-  "git://github.com/tpope/vim-surround.git",               # Change surroundings from () to {} with 'cs({'
-  "git://github.com/mattn/gist-vim.git",                   # Post selection to gist.github.com
-  "git://github.com/vim-scripts/taglist.vim.git",          # :TlistToggle to display ctags
-  "git://github.com/vim-scripts/AutoTag.git",              # update ctags when saving, deleting
-  "git://github.com/tsaleh/vim-align.git",
-  "git://github.com/tsaleh/vim-shoulda.git",
-  "git://github.com/tsaleh/vim-supertab.git",
-  "git://github.com/kchmck/vim-coffee-script.git",         # Coffeescript
-  "git://github.com/henrik/vim-indexed-search.git",
-  "git://github.com/mattn/zencoding-vim.git",
-  "git://github.com/taq/vim-rspec.git",                    # RSpec
-  "git://github.com/sunaku/vim-ruby-minitest.git",         # Minitest completion and highlighting
-  "git://github.com/thomd/vim-jasmine.git",                # Jasmine
-  "git://github.com/scrooloose/syntastic.git",
-  "https://github.com/slack/vim-bufexplorer.git",
-  "git://github.com/pangloss/vim-javascript.git",          # Javascript
-  "git://github.com/tomtom/tcomment_vim.git"               # comment line with 'gcc'
-]
+VimPluginUpdater.update
 
-vim_org_scripts = [
-  # if you can't find it on github, look for vim scripts:
-  # ["IndexedSearch", "7062",  "plugin"]
-]
+module VimPluginUpdater
+  extend self
 
-def check_web(host, file='/')
-  begin
-    Net::HTTP.start(host) do |http|
-      response = http.get(file)
-      if not response.code.match(/200/)
-        log_error("Web Server down or not resonding: #{response.code} #{response.message}")
-        false
+  GIT_BUNDLES = [
+    "git://github.com/derekwyatt/vim-scala.git",             # scala support
+    "git://github.com/skammer/vim-css-color.git",            # color css codes
+    "git://github.com/godlygeek/tabular.git",                # adjusts tables for cuke's scenarios
+    "git://github.com/msanders/snipmate.vim.git",            # Snippets of code
+    "git://github.com/scrooloose/nerdtree.git",              # File drawer
+    "git://github.com/altercation/vim-colors-solarized.git", # Best color theme
+    "git://github.com/vim-ruby/vim-ruby.git",                # Ruby
+    "git://github.com/tpope/vim-bundler.git",                # use :Bundle
+    "git://github.com/tpope/vim-endwise.git",                # Add closing brackets for blocks (i.e. class => end in ruby)
+    "git://github.com/tpope/vim-cucumber.git",               # Cucumber
+    "git://github.com/tpope/vim-fugitive.git",               # :Gblame, :Gstatus
+    "git://github.com/tpope/vim-unimpaired.git",             # Navigation with fugitive
+    "git://github.com/tpope/vim-git.git",
+    "git://github.com/tpope/vim-markdown.git",               # Markdown
+    "git://github.com/tpope/vim-ragtag.git",                 # html tag snippets
+    "git://github.com/tpope/vim-rails.git",                  # Rails
+    "git://github.com/tpope/vim-surround.git",               # Change surroundings from () to {} with 'cs({'
+    "git://github.com/mattn/gist-vim.git",                   # Post selection to gist.github.com
+    "git://github.com/vim-scripts/taglist.vim.git",          # :TlistToggle to display ctags
+    "git://github.com/vim-scripts/AutoTag.git",              # update ctags when saving, deleting
+    "git://github.com/tsaleh/vim-align.git",
+    "git://github.com/tsaleh/vim-shoulda.git",
+    "git://github.com/tsaleh/vim-supertab.git",
+    "git://github.com/kchmck/vim-coffee-script.git",         # Coffeescript
+    "git://github.com/henrik/vim-indexed-search.git",
+    "git://github.com/mattn/zencoding-vim.git",
+    "git://github.com/taq/vim-rspec.git",                    # RSpec
+    "git://github.com/sunaku/vim-ruby-minitest.git",         # Minitest completion and highlighting
+    "git://github.com/thomd/vim-jasmine.git",                # Jasmine
+    "git://github.com/scrooloose/syntastic.git",
+    "https://github.com/slack/vim-bufexplorer.git",
+    "git://github.com/pangloss/vim-javascript.git",          # Javascript
+    "git://github.com/tomtom/tcomment_vim.git"               # comment line with 'gcc'
+  ]
+
+  VIM_SCRIPTS = [
+    # if you can't find it on github, look for vim scripts:
+    # ["IndexedSearch", "7062",  "plugin"]
+  ]
+
+  def update
+    FileUtils.cd(bundles_dir)
+    update_github
+    update_vimscript
+  end
+
+  def update_github
+    if github_com?
+      puts "Trashing everything (lookout!)"
+      Dir["*"].each {|d| FileUtils.rm_rf d }
+
+      GIT_BUNDLES.each do |url|
+        dir = url.split('/').last.sub(/\.git$/, '')
+        puts "  Unpacking #{url} into #{dir}"
+        `git clone #{url} #{dir}`
+        FileUtils.rm_rf(File.join(dir, ".git"))
       end
-      true
     end
-  rescue SocketError => socket_error
-    log_error("Error Connecting To Web: #{socket_error}")
-  rescue TimeoutError => timeout_error
-    log_error("Web connection timed out: #{timeout_error}")
   end
-end
 
-def log_error(error, log_file = '/tmp/vim_update.log', stderr = $stderr)
-  msg = Time.now.rfc2822.to_s + ": " + error
-  stderr.puts msg
-  File.open(log_file, 'a') do |log|
-    log.puts msg
-  end
-end
-
-# def check_host(host)
-#   result = `ping -q -c 2 #{host}`
-#   $?.exitstatus == 0
-# end
-
-def github_com?
-  check_web('https://www.github.com')
-end
-
-def vim_org?
-  check_web('http://www.vim.org')
-end
-
-bundles_dir = File.join(File.dirname(__FILE__), "bundle")
-
-FileUtils.cd(bundles_dir)
-
-if github_com?
-  puts "Trashing everything (lookout!)"
-  Dir["*"].each {|d| FileUtils.rm_rf d }
-
-  git_bundles.each do |url|
-    dir = url.split('/').last.sub(/\.git$/, '')
-    puts "  Unpacking #{url} into #{dir}"
-    `git clone #{url} #{dir}`
-    FileUtils.rm_rf(File.join(dir, ".git"))
-  end
-end
-
-if vim_org?
-  vim_org_scripts.each do |name, script_id, script_type|
-    puts "  Downloading #{name}"
-    local_file = File.join(name, script_type, "#{name}.vim")
-    FileUtils.mkdir_p(File.dirname(local_file))
-    File.open(local_file, "w") do |file|
-      file << open("http://www.vim.org/scripts/download_script.php?src_id=#{script_id}").read
+  def update_vimscript
+    if vim_org?
+      VIM_SCRIPTS.each do |name, script_id, script_type|
+        puts "  Downloading #{name}"
+        local_file = File.join(name, script_type, "#{name}.vim")
+        FileUtils.mkdir_p(File.dirname(local_file))
+        File.open(local_file, "w") do |file|
+          file << open("http://www.vim.org/scripts/download_script.php?src_id=#{script_id}").read
+        end
+      end
     end
+  end
+
+  private
+
+  def check_web(host, file='/')
+    begin
+      Net::HTTP.start(host) do |http|
+        response = http.get(file)
+        if not response.code.match(/200/)
+          log_error("Web Server down or not resonding: #{response.code} #{response.message}")
+          false
+        end
+        true
+      end
+    rescue SocketError => socket_error
+      log_error("Error Connecting To Web: #{socket_error}")
+    rescue TimeoutError => timeout_error
+      log_error("Web connection timed out: #{timeout_error}")
+    end
+  end
+
+  def log_error(error, log_file = '/tmp/vim_update.log', stderr = $stderr)
+    msg = Time.now.rfc2822.to_s + ": " + error
+    stderr.puts msg
+    File.open(log_file, 'a') do |log|
+      log.puts msg
+    end
+  end
+
+  def github_com?
+    check_web('https://www.github.com')
+  end
+
+  def vim_org?
+    check_web('http://www.vim.org')
+  end
+
+  def bundles_dir
+    File.join(File.dirname(__FILE__), "bundle")
   end
 end
