@@ -11,7 +11,7 @@ namespace :install do
     replace_all = false
     Dir['*'].each do |file|
       next if %w[Rakefile README.rdoc LICENSE].include? file
-      
+
       if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
         if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
           puts "identical ~/.#{file.sub('.erb', '')}"

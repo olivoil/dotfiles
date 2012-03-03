@@ -50,6 +50,7 @@ module VimPluginUpdater
   ]
 
   def update
+    Dir.mkdir(bundles_dir) unless File.exists?(bundles_dir)
     FileUtils.cd(bundles_dir)
     update_github
     update_vimscript
