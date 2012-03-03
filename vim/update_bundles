@@ -5,8 +5,6 @@ require 'time'
 require 'fileutils'
 require 'open-uri'
 
-VimPluginUpdater.update
-
 module VimPluginUpdater
   extend self
 
@@ -123,3 +121,5 @@ module VimPluginUpdater
     File.join(File.dirname(__FILE__), "bundle")
   end
 end
+
+VimPluginUpdater.update
