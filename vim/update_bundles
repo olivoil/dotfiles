@@ -111,11 +111,11 @@ module VimPluginUpdater
   end
 
   def github_com?
-    check_web('https://www.github.com')
+    check_web('www.github.com')
   end
 
   def vim_org?
-    check_web('http://www.vim.org')
+    check_web('www.vim.org')
   end
 
   def bundles_dir
