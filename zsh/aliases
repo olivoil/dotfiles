@@ -30,7 +30,6 @@ alias gs='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias glog="git log --pretty=format:'%ar	%an	%ae	%h - %s' --date-order --graph"
 alias gh='git push heroku master'
-alias git=hub # brew install hub => teaches git about github
 
 # rails
 alias rials='rails'
