@@ -250,7 +250,7 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " Ctags
 map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
 nnoremap <silent> <C-I> :TlistToggle<CR>
-let g:Tlist_Ctags_Cmd="/usr/local/bin/ctags --extra=+f -R"
+let g:Tlist_Ctags_Cmd="/usr/bin/env ctags --extra=+f -R"
 let g:Tlist_Use_Right_Window = 1
 let g:Tlist_Enable_Fold_Column = 1
 let g:Tlist_Exit_OnlyWindow = 1

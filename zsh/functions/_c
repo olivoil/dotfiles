@@ -1,2 +1,2 @@
 #compdef c
-_files -W ~/Dropbox/Code -/
+_files -W ~/.code -/
