@@ -288,6 +288,11 @@ map <C-K> :m -2 <CR>
 vmap <C-J> :m +1 <CR>gv
 vmap <C-K> :m -2 <CR>gv
 
+" Move by function / method
+nmap m ]m
+nmap <C-m> [m
+nmap M ]M
+
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
