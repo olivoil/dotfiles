@@ -277,10 +277,14 @@ nmap <S-K> <C-W>k
 nmap <S-L> <C-W>l
 
 " Move lines up and down
-map <C-J> :m +1 <CR>
-map <C-K> :m -2 <CR>
-vmap <C-J> :m +1 <CR>gv
-vmap <C-K> :m -2 <CR>gv
+vmap <S-J> :m +1 <CR>
+vmap <S-K> :m -2 <CR>
+vmap <S-J> :m +1 <CR>gv
+vmap <S-K> :m -2 <CR>gv
+
+" Move from function to function
+map <C-J> ]m
+map <C-K> [m
 
 " Move by function / method
 nmap m ]m
@@ -381,7 +385,6 @@ nnoremap <silent> <C-U> :NERDTreeToggle<CR>
 vmap > >gv
 vmap < <gv
 
-" Set minimum pane height to 5 lines
 set winwidth=84
 set winheight=5
 set winminheight=5
@@ -415,9 +418,8 @@ set expandtab
 set laststatus=2
 
 " Put useful info in status line
-set statusline=%<%f%=%(%{&ft}[%{Tlist_Get_Tagname_By_Line()}]%)
-" set statusline=%<%f\\\\\\\\\\\\\\\\ (%{&ft})\\\\\\\\\\\\\\\\ %-4(%m%)%=%-19(%3l,%02c%03V%)
-hi User1 term=inverse,bold cterm=inverse,bold,underline ctermfg=red
+set statusline=%<%f%=%{&ft}[%{Tlist_Get_Tagname_By_Line()}]\ [%l/%L]\ %m
+hi User1 term=inverse,bold cterm=inverse,bold,underline ctermbg=white ctermfg=red
 " Line Numbers
 set numberwidth=5
 
