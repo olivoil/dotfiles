@@ -9,6 +9,7 @@ module VimPluginUpdater
   extend self
 
   GIT_BUNDLES = [
+    "git://github.com/kien/ctrlp.vim.git",                   # file finder
     "git://github.com/derekwyatt/vim-scala.git",             # scala support
     "git://github.com/skammer/vim-css-color.git",            # color css codes
     "git://github.com/godlygeek/tabular.git",                # adjusts tables for cuke's scenarios

@@ -61,12 +61,6 @@ if exists("g:gist_open_browser_after_post")
   let g:gist_open_browser_after_post = 1
 endif
 
-" FuzzyFinder
-let g:fuf_splitPathMatching=1
-" mnemonic 'g' for 'go to'
-ab G FufFile
-map <Leader>g :FufFile<cr>
-
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
