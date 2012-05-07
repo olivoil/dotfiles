@@ -1,0 +1,7 @@
+function gex {
+  git update-index --assume-unchanged $@
+}
+
+function gin {
+  git update-index --no-assume-unchanged $@
+}
