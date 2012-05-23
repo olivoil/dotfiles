@@ -10,37 +10,27 @@ module VimPluginUpdater
 
   GIT_BUNDLES = [
     "git://github.com/kien/ctrlp.vim.git",                   # file finder
-    "git://github.com/derekwyatt/vim-scala.git",             # scala support
-    "git://github.com/skammer/vim-css-color.git",            # color css codes
     "git://github.com/godlygeek/tabular.git",                # adjusts tables for cuke's scenarios
     "git://github.com/msanders/snipmate.vim.git",            # Snippets of code
     "git://github.com/scrooloose/nerdtree.git",              # File drawer
     "git://github.com/altercation/vim-colors-solarized.git", # Best color theme
     "git://github.com/vim-ruby/vim-ruby.git",                # Ruby
-    "git://github.com/tpope/vim-bundler.git",                # use :Bundle
     "git://github.com/tpope/vim-endwise.git",                # Add closing brackets for blocks (i.e. class => end in ruby)
-    "git://github.com/tpope/vim-cucumber.git",               # Cucumber
     "git://github.com/tpope/vim-fugitive.git",               # :Gblame, :Gstatus
     "git://github.com/tpope/vim-unimpaired.git",             # Navigation with fugitive
     "git://github.com/tpope/vim-git.git",
-    "git://github.com/tpope/vim-markdown.git",               # Markdown
     "git://github.com/tpope/vim-ragtag.git",                 # html tag snippets
     "git://github.com/tpope/vim-rails.git",                  # Rails
     "git://github.com/tpope/vim-surround.git",               # Change surroundings from () to {} with 'cs({'
-    "git://github.com/mattn/gist-vim.git",                   # Post selection to gist.github.com
     "git://github.com/vim-scripts/taglist.vim.git",          # :TlistToggle to display ctags
     "git://github.com/vim-scripts/AutoTag.git",              # update ctags when saving, deleting
     "git://github.com/tsaleh/vim-align.git",
-    "git://github.com/tsaleh/vim-shoulda.git",
     "git://github.com/tsaleh/vim-supertab.git",
     "git://github.com/kchmck/vim-coffee-script.git",         # Coffeescript
-    "git://github.com/henrik/vim-indexed-search.git",
-    "git://github.com/mattn/zencoding-vim.git",
+    "git://github.com/digitaltoad/vim-jade.git",             # Jade templates syntax highlighting
     "git://github.com/taq/vim-rspec.git",                    # RSpec
     "git://github.com/sunaku/vim-ruby-minitest.git",         # Minitest completion and highlighting
     "git://github.com/thomd/vim-jasmine.git",                # Jasmine
-    "git://github.com/scrooloose/syntastic.git",
-    "https://github.com/slack/vim-bufexplorer.git",
     "git://github.com/pangloss/vim-javascript.git",          # Javascript
     "git://github.com/tomtom/tcomment_vim.git"               # comment line with 'gcc'
   ]

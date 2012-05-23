@@ -75,6 +75,7 @@ if has("autocmd")
 
   " For Haml
   autocmd BufRead,BufNewFile *.haml setfiletype haml
+  autocmd BufNewFile,BufRead *.slim setfiletype haml
 
   " Enable soft-wrapping for text files
   autocmd FileType text,markdown,eco,html,xhtml,eruby setlocal wrap linebreak nolist
@@ -385,9 +386,9 @@ nnoremap <silent> <C-U> :NERDTreeToggle<CR>
 vmap > >gv
 vmap < <gv
 
-set winwidth=84
-set winheight=5
-set winminheight=5
+set winwidth=110
+set winheight=50
+" set winminheight=5
 
 set previewheight=50
 au BufEnter ?* call PreviewHeightWorkAround()
@@ -408,6 +409,9 @@ endif
 
 " Display extra whitespace
 set list listchars=tab:»·,trail:·
+
+" No wrap
+set nowrap
 
 " Softtabs, 2 spaces
 set tabstop=2
