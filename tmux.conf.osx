@@ -1,0 +1,8 @@
+# source the main file
+source-file ~/.tmux.conf
+
+# This is for setting up tmux-pasteboard
+# tmux-pasteboard: https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
+# set-option -g default-command "reattach-to-user-namespace -l zsh"
+#
+# set-option -g default-shell "zsh"

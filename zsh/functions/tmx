@@ -1,0 +1,137 @@
+#!/bin/bash
+# This script opens a new base session or attaches to it
+# The benefit of this implementation is that it can attach
+# independently through a new-session
+#
+# Modified TMUX start script from:
+#  http://mutelight.org/articles/practical-tmux
+#
+
+# Works because bash automatically trims by assigning to variables and by
+# passing arguments
+trim() { echo $1; }
+
+# source $HOME/.path
+
+# if [[ -z "$1" ]]; then
+#     echo "Specify session name as the first argument"
+#     exit
+# fi
+#
+# Only because I often issue `ls` to this script by accident
+if [[ "$1" == "ls" ]]; then
+    tmux ls
+    exit
+fi
+
+# establish a default response
+base_session="$1"
+if [[ "$1" == "--default" ]] || [[ "$1" == "-d" ]] || [[ "$#" -eq 0 ]] ; then
+  base_session=$(hostname -s)
+fi
+
+# exit if we are in a dumb terminal or something unkown (eg. DTERM)
+# if [[ $TERM != xterm* ]] && [[ $TERM != screen* ]] ; then
+#    exit
+# fi
+
+## startup files
+TMUX_CONF=$HOME/.tmux.conf
+TMUX_CONF_MINI=$TMUX_CONF.mini
+TMUX_CONF_OSX=$TMUX_CONF.osx
+fileConf=$TMUX_CONF
+
+# OS specific configurations
+if [[ "$(uname)" == "Darwin" ]] ; then
+  # Add additional specifications for osx user
+  fileConf="$TMUX_CONF_OSX"
+fi
+
+# Small screen?
+if [[ -n $COLUMNS ]] ; then
+  # tput cols seems to always output a default of 80 when used as a variable or redirected value
+  # therefore, we must limit this to zsh, which has the COLUMNS variable
+  if [[ $COLUMNS -lt 100 ]] ; then
+    TERM=xterm-256color
+    fileConf=$TMUX_CONF_MINI
+  fi
+fi
+# nested
+# if [[ $TERM == screen* ]] ; then
+#    # make sure to use the nested-tmux configuration file
+#    insidetmux=1
+#    fileConf=$TMUX_CONF_NEST
+# fi
+
+# This actually works without the trim() on all systems except OSX
+# this counts the number of open tmx sessions with the given session name
+tmux_nb=$(trim `tmux ls 2> /dev/null | grep "^$base_session" | wc -l`)
+
+# if we are inside another tmux-session, fool the terminal
+# otherwise it should have no effect
+# TEMP_TERM=$TERM
+# TEMP_TERM_SUFFIX=${TERM#$(echo $TERM | cut -f 1 -d'-')}
+# TERM="xterm${TEMP_TERM_SUFFIX}"
+
+# creating the base_session, but not connecting to it
+if [[ "$tmux_nb" == "0" ]]; then
+   # no base session detected, launch it detached
+   tmux -f $fileConf new-session -d -s $base_session
+
+   # make simulation-window
+   #sleep .3
+   #echo "-opening \"sims\" window"
+   ##resimwin
+   #if [[ $? -ne 0 ]] ; then
+      #echo "*** error occured using resimwin"
+      #exit 1
+   #fi
+
+   # opening up tabbed apps
+   #if [[ $COMP_TYPE == "local" ]] ; then
+      #tmvim $MD_SVN
+      #tmux neww -t $base_session:2 'mutt'
+      #tmux neww -t $base_session:3 'echo "l: $LINES c: $COLUMNS"; read -p "..." -n 1'
+   #fi
+   # now, we need to move back to the base window
+fi
+
+# it's time to attach to an existing session
+if [[ -z "$TMUX" ]]; then
+   # this guards against locally-nested tmux-sessions
+
+   # Kill defunct sessions first
+   function tmclean(){
+      this_session=$(tmux display -p '#S')
+      # Kill defunct sessions first
+      old_sessions=$(tmux ls 2>/dev/null | egrep "^[0-9]{14}" | cut -f 1 -d:)
+      for old_session_id in $old_sessions; do
+          echo "kill old tm-session: $old_session_id"
+          tmux kill-session -t $old_session_id
+      done
+   }
+   tmux ls
+   tmclean
+   tmux ls
+
+   # setup configuration files for this session
+   # Session is is date and time to prevent conflict
+   session_id=`date +"%Y%m%d%H%M%S"`
+   # Create a new session (without attaching it) and link to base session
+   # to share windows
+   tmux new-session -d -t $base_session -s $session_id
+
+   # tmx indexes start on 1 in my config: set -g base-index -1
+   # Attach to the new session @window:1
+   tmux select-window -t  $session_id:1
+   echo $fileConf
+   tmux attach-session -t $session_id \; source-file $fileConf
+
+   # When we detach from it, kill the session
+   tmux kill-session -t $session_id 2> /dev/null
+fi
+
+# reset the terminal attribute
+# TERM=$TEMP_TERM
+
+
