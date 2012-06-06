@@ -4,17 +4,45 @@
 "
 """""""""""""""
 
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
+" Vi Improved
 set nocompatible
 
 " MapLeader
 let mapleader=","
 
-" pathogen bundles
+" Vundle
 filetype off
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'kien/ctrlp.vim'
+Bundle 'godlygeek/tabular'
+Bundle 'msanders/snipmate.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-ragtag'
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-surround'
+Bundle 'vim-scripts/taglist.vim'
+Bundle 'vim-scripts/AutoTag'
+Bundle 'tsaleh/vim-align'
+Bundle 'tsaleh/vim-supertab'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'taq/vim-rspec'
+Bundle 'sunaku/vim-ruby-minitest'
+Bundle 'thomd/vim-jasmine'
+Bundle 'pangloss/vim-javascript'
+Bundle 'tomtom/tcomment_vim.git'
+Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+Bundle 'Lokaltog/vim-powerline'
 
 " Set shell
 set shell=/bin/zsh
@@ -382,6 +410,9 @@ nnoremap <silent> <C-U> :NERDTreeToggle<CR>
 "
 """""""""""""""
 
+" Fancy powerline
+let g:Powerline_symbols = 'fancy'
+
 " Keep selection when indenting in visual mode
 vmap > >gv
 vmap < <gv
@@ -422,7 +453,7 @@ set expandtab
 set laststatus=2
 
 " Put useful info in status line
-set statusline=%<%f%=%{&ft}[%{Tlist_Get_Tagname_By_Line()}]\ [%l/%L]\ %m
+set statusline=%<%f%=%{fugitive#statusline()}\ %{&ft}[%{Tlist_Get_Tagname_By_Line()}]\ [%l/%L]\ %m
 hi User1 term=inverse,bold cterm=inverse,bold,underline ctermbg=white ctermfg=red
 " Line Numbers
 set numberwidth=5
