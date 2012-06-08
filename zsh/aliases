@@ -18,6 +18,9 @@ alias ts='terminitor start'
 alias te='terminitor edit'
 
 # git
+
+alias git='hub'
+alias gco='git checkout'                                                                                │if type compdef >/dev/null; then                                                                   alias gb='git branch'                                                                                   │   compdef hub=git                                                                                 alias gs='git status'                                                                                   │fi 
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff'
@@ -32,14 +35,18 @@ alias glog="git log --pretty=format:'%ar	%an	%ae	%h - %s' --date-order --graph"
 alias gh='git push heroku master'
 
 # rails
-alias rials='rails'
+alias bi='bundle install --binstubs=.bin --path=vendor'
+alias rn='bundle exec rails new . --skip-test-unit --skip-bundle && bi'
+alias r='rails'
 alias tlog='tail -f log/development.log'
-alias bi='bundle install --binstubs=.bin'
 alias be='bundle exec'
 alias generate='rails g'
 alias scaffold='rails scaffold'
 alias migrate='rake db:migrate db:test:clone'
 alias restart='touch tmp/restart.txt'
+alias pryr='pry -r ./config/environment'
+
+alias rials='rails'
 
 # commands starting with % for pasting from web
 alias %=' '
