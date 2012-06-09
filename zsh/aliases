@@ -20,22 +20,9 @@ alias te='terminitor edit'
 # git
 
 alias git='hub'
-alias gco='git checkout'                                                                                │if type compdef >/dev/null; then                                                                   alias gb='git branch'                                                                                   │   compdef hub=git                                                                                 alias gs='git status'                                                                                   │fi 
-alias gl='git pull'
-alias gp='git push'
-alias gd='git diff'
-alias gc='git commit'
-alias gcm='git commit -m'
-alias gca='git commit -a'
-alias gco='git checkout'
-alias gb='git branch'
-alias gs='git status'
-alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-alias glog="git log --pretty=format:'%ar	%an	%ae	%h - %s' --date-order --graph"
-alias gh='git push heroku master'
 
 # rails
-alias bi='bundle install --binstubs=.bin --path=vendor'
+alias bi='bundle install --binstubs=.bin --path=vendor/bundle'
 alias rn='bundle exec rails new . --skip-test-unit --skip-bundle && bi'
 alias r='rails'
 alias tlog='tail -f log/development.log'

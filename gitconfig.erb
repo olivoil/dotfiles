@@ -14,6 +14,7 @@
   r = !git --no-pager l -20
   ra = !git r --all
   ff = merge --ff-only
+  p = pull --rebase
   pullff = pull --ff-only
   l = log --graph --abbrev-commit --date=relative 
   la = !git l --all
@@ -22,6 +23,7 @@
   gnc = goodness --cached
   fa = fetch --all
   pom = push origin master
+  prom = push --rebase origin master
 [color]
 	diff = auto
 	status = auto
